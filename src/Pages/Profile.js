@@ -41,11 +41,11 @@ export default function Profile() {
                             <div className='profile-date'>
                                 <h3>Check Exercises</h3>
                             </div>
-                            <div className='profile-if-logged'>
-                                 <h3>Not Logged</h3>
+                            <div className='profile-if-logged' onClick={() => navTo('/exerciselog')}>
+                                 <h3>Click here to show log history</h3>
                             </div>
                         </div>
-                        <div className='profile-log-history-button'>
+                        <div className='profile-log-history-button' onClick={() => navTo('/exerciseloghistory')}>
                             <h2> Click here to show log history</h2>
                         </div>
                     </div>

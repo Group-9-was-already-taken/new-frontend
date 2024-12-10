@@ -45,7 +45,7 @@ export default function Header() {
                             {user ? (
                                 <>
                                     <DropDownItem text="Dashboard" path="/dashboard" />
-                                    <DropDownItem text="My Profile" path="/profile" />
+                                    <DropDownItem text="My Profile" path="/userinfo" />
                                     <DropDownItem text="Exercises" path="/exercises" />
                                     <DropDownItem text="About Us" path="/aboutus" />
                                     <DropDownItem text="Logout" onClick={handleLogout} />
