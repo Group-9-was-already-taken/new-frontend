@@ -20,9 +20,11 @@ export default function Login() {
         setError('');
         
         try {
-            await login(email, password);
+            const user = await login(email, password);
+            setUser(user); // Update the user context
             navigate('/dashboard');
         } catch (error) {
+            console.error('Login error:', error);
             setError(error.response?.data?.error || 'An error occurred during login');
         }
     };

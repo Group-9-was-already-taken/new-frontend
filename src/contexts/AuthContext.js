@@ -22,11 +22,14 @@ export const AuthProvider = ({ children }) => {
     initAuth();
   }, []);
 
+  const getToken = () => localStorage.getItem('token');
+
   const value = {
     user,
     setUser,
     isAuthenticated: !!user,
-    loading
+    loading,
+    getToken
   };
 
   if (loading) {
