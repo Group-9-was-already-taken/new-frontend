@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Placeholder from './Placeholder.jpg'
 import { useNavigate } from "react-router-dom";
 import { useAuth } from '../contexts/AuthContext';
@@ -8,14 +8,33 @@ export default function Header() {
     const navigate = useNavigate();
     const { user, setUser } = useAuth();
     const [open, setOpen] = useState(false);
+    const dropdownRef = useRef(null);
+    const triggerRef = useRef(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && 
+                !dropdownRef.current.contains(event.target) && 
+                !triggerRef.current.contains(event.target)) {
+                setOpen(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
 
     const navTo = (path) => {
         navigate(path);
+        setOpen(false); // Close dropdown after navigation
     };
 
     const handleLogout = () => {
         logout();
         setUser(null);
+        setOpen(false); // Close dropdown after logout
         navigate('/');
     };
 
@@ -23,7 +42,9 @@ export default function Header() {
     function DropDownItem({ text, path, onClick }) {
         return (
             <li className="dropdown-item" onClick={onClick || (() => navTo(path))}>
-                <a>{text}</a>
+                <button type="button" className="dropdown-link">
+                    {text}
+                </button>
             </li>
         )
     }
@@ -40,11 +61,18 @@ export default function Header() {
                 </button>
                 <h1 className='header-title' onClick={() => navTo('/')}>Mental Health Page</h1>
                 <div className='dropdown-container'>
-                    <div className='dropdown-trigger' onClick={() => { setOpen(!open) }}>
+                    <div 
+                        ref={triggerRef}
+                        className='dropdown-trigger' 
+                        onClick={() => setOpen(!open)}
+                    >
                         <img src={user?.profileImage || Placeholder} alt={user ? 'Profile' : 'Menu'} />
                         {user && <span className="username">{user.username}</span>}
                     </div>
-                    <div className={`dropdown-menu ${open ? 'active' : 'inactive'}`}>
+                    <div 
+                        ref={dropdownRef}
+                        className={`dropdown-menu ${open ? 'active' : 'inactive'}`}
+                    >
                         <h3 className='dropdown-h3'>Where would you like to go next?</h3>
                         <ul>
                             {user ? (

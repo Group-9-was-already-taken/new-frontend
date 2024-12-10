@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from '../contexts/AuthContext';
 
@@ -8,6 +8,13 @@ export default function MoodLog() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const { user, getToken, isAuthenticated } = useAuth();
+
+  useEffect(() => {
+    // Check authentication when component mounts
+    if (!isAuthenticated || !user) {
+      navigate('/login');
+    }
+  }, [isAuthenticated, user, navigate]);
 
   const handleMoodChange = (event) => {
     setSelectedMood(event.target.value);
@@ -25,7 +32,7 @@ export default function MoodLog() {
     event.preventDefault();
     setError("");
 
-    if (!isAuthenticated) {
+    if (!isAuthenticated || !user) {
       setError("Please log in to save your mood");
       setTimeout(() => navTo('/login'), 2000);
       return;
@@ -49,9 +56,6 @@ export default function MoodLog() {
         mood_note: dailyThoughts || ""
       };
 
-      console.log('Sending mood data:', moodData);
-      console.log('Using token:', token);
-
       const response = await fetch('http://localhost:3001/api/mood-logs', {
         method: 'POST',
         headers: {
@@ -62,8 +66,7 @@ export default function MoodLog() {
       });
 
       const data = await response.json();
-      console.log('Server response:', data);
-      console.log('Response status:', response.status);
+      console.log('Server response:', data); // For debugging
 
       if (!response.ok) {
         throw new Error(data.error || data.details || 'Failed to save mood');
@@ -86,6 +89,19 @@ export default function MoodLog() {
     }
   };
 
+  if (!isAuthenticated || !user) {
+    return (
+      <div className="moodlog-container">
+        <div className="moodlog-content">
+          <h2>Please log in to access this feature</h2>
+          <div className="moodlog-button" onClick={() => navTo('/login')}>
+            <h1>Go to Login</h1>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="moodlog-container">
       <div className="moodlog-content">
@@ -100,36 +116,32 @@ export default function MoodLog() {
             <option value="" disabled>
               Select your mood
             </option>
-            <option value={1}>1 - Very Poor</option>
-            <option value={2}>2 - Poor</option>
-            <option value={3}>3 - Neutral</option>
-            <option value={4}>4 - Good</option>
-            <option value={5}>5 - Excellent</option>
+            <option value="1">1 - Very Bad</option>
+            <option value="2">2 - Bad</option>
+            <option value="3">3 - Neutral</option>
+            <option value="4">4 - Good</option>
+            <option value="5">5 - Very Good</option>
           </select>
-          {selectedMood && (
-            <p className="selected-mood">You selected: {selectedMood}</p>
-          )}
         </div>
+
         <div className="moodlog-info-box">
-          <h1>Write down your thoughts</h1>
+          <h1>Would you like to add any thoughts about your day?</h1>
           <textarea
             value={dailyThoughts}
             onChange={handleThoughtsChange}
-            className="thoughts-input"
             placeholder="Write your thoughts here..."
-          ></textarea>
-          {dailyThoughts && (
-            <p className="saved-thoughts">
-              Your thoughts: {dailyThoughts}
-            </p>
-          )}
+            className="mood-textarea"
+          />
         </div>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
+
+        {error && <div className="error-message">{error}</div>}
+
         <div className="moodlog-button" onClick={handleClick}>
-          <h1>Log your mood!</h1>
+          <h1>Save Mood Log</h1>
         </div>
-        <div className="moodlog-button" onClick={() => navTo('/profile')}>
-          <h1>Return to log overview</h1>
+
+        <div className="moodlog-button" onClick={() => navTo('/dashboard')}>
+          <h1>Return to Dashboard</h1>
         </div>
       </div>
     </div>

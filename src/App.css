@@ -126,6 +126,27 @@ display: flex;
 margin: 10px auto;
 }
 
+/* Dropdown Button Styles */
+.dropdown-link {
+  background: none;
+  border: none;
+  color: inherit;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  padding: 8px 12px;
+}
+
+.dropdown-link:hover {
+  background-color: #f5f5f5;
+}
+
+.dropdown-link:focus {
+  outline: 2px solid #007bff;
+  outline-offset: -2px;
+}
 
 /* CSS for the footer */
 .footer-container{
