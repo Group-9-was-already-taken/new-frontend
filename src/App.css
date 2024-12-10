@@ -891,6 +891,64 @@ font-size: 16px;
 margin: 5px 0;
 }
 
+/* Exercise History Styles */
+.history-list {
+  width: 100%;
+  max-width: 800px;
+  margin: 20px auto;
+}
+
+.history-item {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.history-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.history-item h3 {
+  color: #333;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 10px;
+}
+
+.exercise-list {
+  padding-left: 20px;
+}
+
+.exercise-item {
+  color: #555;
+  margin: 8px 0;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+/* Loading and Error States */
+.loading-state, .error-state {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+}
+
+.error-state {
+  color: #dc3545;
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+  font-style: italic;
+}
+
 /* Dashboard Styles */
 .dashboard-container {
   max-width: 1200px;

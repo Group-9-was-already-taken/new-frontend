@@ -21,14 +21,19 @@ export default function Dashboard() {
             <p>Track your daily mood and feelings</p>
           </div>
 
-          <div className="dashboard-card" onClick={() => navTo('/exercises')}>
+          <div className="dashboard-card" onClick={() => navTo('/exerciselog')}>
             <h2>Exercises</h2>
-            <p>View recommended exercises</p>
+            <p>Log your completed exercises</p>
           </div>
 
           <div className="dashboard-card" onClick={() => navTo('/moodloghistory')}>
             <h2>Mood History</h2>
             <p>View your mood tracking history</p>
+          </div>
+
+          <div className="dashboard-card" onClick={() => navTo('/exerciseloghistory')}>
+            <h2>Exercise History</h2>
+            <p>View your exercise log history</p>
           </div>
 
           <div className="dashboard-card" onClick={() => navTo('/profile')}>

@@ -15,6 +15,8 @@ import MuscleExercise from './Pages/ExercisePages/MuscleExercise';
 import UserInfo from './Pages/UserInfo';
 import MoodLog from './Pages/MoodLog';
 import MoodLogHistory from './Pages/MoodlLogHistory';
+import ExerciseLogHistory from './Pages/ExerciseLogHistory';
+import ExerciseLog from './Pages/ExerciseLog';
 import { AuthProvider } from './contexts/AuthContext';
 import Dashboard from './Pages/Dashboard';
 import HelpSites from './Pages/Helpsites';
@@ -30,6 +32,7 @@ export default function App() {
               <Route path="/" element={<Frontpage />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/exercises" element={<Exercises />} />
+              <Route path="/exerciselog" element={<ExerciseLog />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/aboutUs" element={<AboutUs />} />
               <Route path="/signlogin" element={<SignLogin />}/>
@@ -41,6 +44,7 @@ export default function App() {
               <Route path="/userinfo" element={<UserInfo />} />
               <Route path="/moodlog" element={<MoodLog />} />
               <Route path="/moodloghistory" element={<MoodLogHistory />} />
+              <Route path="/exerciseloghistory" element={<ExerciseLogHistory />} />
               <Route path="/helpsites" element={<HelpSites />} />
             </Routes>
           </main>
