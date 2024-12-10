@@ -17,6 +17,7 @@ import MoodLog from './Pages/MoodLog';
 import MoodLogHistory from './Pages/MoodlLogHistory';
 import { AuthProvider } from './contexts/AuthContext';
 import Dashboard from './Pages/Dashboard';
+import HelpSites from './Pages/Helpsites';
 
 export default function App() {
   return(
@@ -40,6 +41,7 @@ export default function App() {
               <Route path="/userinfo" element={<UserInfo />} />
               <Route path="/moodlog" element={<MoodLog />} />
               <Route path="/moodloghistory" element={<MoodLogHistory />} />
+              <Route path="/helpsites" element={<HelpSites />} />
             </Routes>
           </main>
           <Footer />

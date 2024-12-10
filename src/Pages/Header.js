@@ -32,7 +32,12 @@ export default function Header() {
     return (
         <header className='header-container'>
             <div className='header-content'>
-                <button className='emergency-button' onClick={() => navTo('/emergency')}> ! </button>
+                <button 
+                    className='emergency-button' 
+                    onClick={() => window.open('https://mieli.fi/en/support-and-help/crisis-helpline/', '_blank')}
+                > 
+                    ! 
+                </button>
                 <h1 className='header-title' onClick={() => navTo('/')}>Mental Health Page</h1>
                 <div className='dropdown-container'>
                     <div className='dropdown-trigger' onClick={() => { setOpen(!open) }}>
