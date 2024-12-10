@@ -20,6 +20,7 @@ import ExerciseLog from './Pages/ExerciseLog';
 import { AuthProvider } from './contexts/AuthContext';
 import Dashboard from './Pages/Dashboard';
 import HelpSites from './Pages/Helpsites';
+import PrivacyPolicy from './Pages/PrivacyPolicy';
 
 export default function App() {
   return(
@@ -38,6 +39,7 @@ export default function App() {
               <Route path="/signlogin" element={<SignLogin />}/>
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<SignUp />} />
+              <Route path="/privacy" element={<PrivacyPolicy />} />
               <Route path="/officeexercises" element={<OfficeExercise />} />
               <Route path="/yogaexercise" element={<YogaExercise />} />
               <Route path="/muscleexercise" element={<MuscleExercise />} />
