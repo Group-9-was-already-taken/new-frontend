@@ -1,34 +1,104 @@
-import React, {useState} from 'react'
-import Placeholder from './Placeholder.jpg'
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from '../contexts/AuthContext';
 
-export default function Exercises() {
+export default function ExerciseLog() {
+  const navigate = useNavigate();
+  const { user } = useAuth();
+  const [loggedExercises, setLoggedExercises] = useState([]);
+  const [saveStatus, setSaveStatus] = useState(''); // For showing save status
 
-    const navigate = useNavigate();
+  const exerciseBlocks = {
+    "Office Exercises": ["Shoulder exercises", "Neck exercises", "Sitting fix exercises"],
+    "Yoga": ["Morning Yoga", "Pilates Yoga"],
+    "Muscle Building Exercises": ["Upper body exercises", "Lower body exercises"],
+  };
 
-    const navTo = (path) => {
-        navigate(path);
-      };
+  const handleCheckboxChange = (exercise) => {
+    setLoggedExercises((prev) =>
+      prev.includes(exercise)
+        ? prev.filter((e) => e !== exercise) // Remove if already logged
+        : [...prev, exercise] // Add if not logged
+    );
+  };
 
-    return(
-        <div className='exercises-container'> 
-            <div className='exercises-content'>
-                <div className='exercises-content-box'>
-                    <img src={'https://media.istockphoto.com/id/1332742273/fi/valokuva/mies-venyttelee-k%C3%A4ytt%C3%A4ess%C3%A4%C3%A4n-kannettavaa-tietokonetta-kotona.jpg?s=2048x2048&w=is&k=20&c=gpi-H1W8iLuVveskE_wgjgYgu00g5f1GFcFJ2Eq9GhM='}></img>
-                    <h2 className='exercises-content-box-text' onClick={() => navTo('/officeexercises')}> Daily office exercises </h2>
-                </div>
+  const saveExerciseLog = async () => {
+    if (!user) {
+      setSaveStatus('Please log in to save exercises');
+      return;
+    }
 
-                <div className='exercises-content-box'>
-                    <img src={'https://as1.ftcdn.net/v2/jpg/01/41/86/02/1000_F_141860204_UWGjTQLGs0feOoBojJ5NLVpeJUL8TFMn.jpg'}></img>
-                    <h2 className='exercises-content-box-text' onClick={() => navTo('/yogaexercise')}> Yoga to clear your mind </h2>
-                </div>
+    if (loggedExercises.length === 0) {
+      setSaveStatus('Please select at least one exercise');
+      return;
+    }
 
-                <div className='exercises-content-box'>
-                    <img src={'https://media.istockphoto.com/id/2158127409/fi/valokuva/push-ups.jpg?s=2048x2048&w=is&k=20&c=tRXf_r40PmiHJ9PRWKCHupZoSe4i_eFbyStBudls7xo='}></img>
-                    <h2 className='exercises-content-box-text' onClick={() => navTo('/muscleexercise')}> Exercise to build up muscle </h2>
-                </div>
-            </div>
+    try {
+      setSaveStatus('Saving...');
+      const response = await fetch('http://localhost:3001/api/exercises/log', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify({
+          exercises: loggedExercises,
+          date: new Date().toISOString()
+        })
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setSaveStatus('Exercises logged successfully!');
+        setLoggedExercises([]); // Clear the form
+        setTimeout(() => {
+          navigate('/profile'); // Navigate after successful save
+        }, 1500);
+      } else {
+        setSaveStatus(data.error || 'Failed to save exercises');
+      }
+    } catch (error) {
+      console.error('Save exercise error:', error);
+      setSaveStatus('Error saving exercises. Please try again.');
+    }
+  };
+
+  return (
+    <div className="moodlog-container">
+      <div className="moodlog-content">
+        <h1>Exercise Log</h1>
+        {Object.entries(exerciseBlocks).map(([blockName, exercises]) => (
+          <div key={blockName} className="exercise-block">
+            <h2>{blockName}</h2>
+            {exercises.map((exercise) => (
+              <label key={exercise} className="exercise-label">
+                <input
+                  type="checkbox"
+                  value={exercise}
+                  onChange={() => handleCheckboxChange(exercise)}
+                  checked={loggedExercises.includes(exercise)}
+                />
+                {exercise}
+              </label>
+            ))}
+          </div>
+        ))}
+        
+        {saveStatus && (
+          <div className={`save-status ${saveStatus.includes('success') ? 'success' : 'error'}`}>
+            {saveStatus}
+          </div>
+        )}
+
+        <div className="moodlog-button" onClick={saveExerciseLog}>
+          <h1>Save Exercise Log</h1>
         </div>
-    )
 
+        <div className="moodlog-button" onClick={() => navigate('/profile')}>
+          <h1>Return to Profile</h1>
+        </div>
+      </div>
+    </div>
+  );
 }

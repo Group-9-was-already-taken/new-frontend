@@ -36,12 +36,6 @@ export default function Dashboard() {
             <p>Manage your account settings</p>
           </div>
         </div>
-
-        <div className="dashboard-quick-actions">
-          <button className="emergency-button" onClick={() => navTo('/emergency')}>
-            Emergency Support
-          </button>
-        </div>
       </div>
     </div>
   );

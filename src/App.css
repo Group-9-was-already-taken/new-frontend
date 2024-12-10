@@ -1,4 +1,3 @@
-
 /* CSS for the container aka the header block itself */
 .header-container {
   background-color: #77CAFD; 
@@ -890,4 +889,87 @@ padding-left: 20px;
 .log-block li {
 font-size: 16px;
 margin: 5px 0;
+}
+
+/* Dashboard Styles */
+.dashboard-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.dashboard-content {
+  text-align: center;
+}
+
+.dashboard-content h1 {
+  color: #333;
+  margin-bottom: 2rem;
+  font-size: 2.5rem;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+.dashboard-card {
+  background-color: #77CAFD;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.dashboard-card h2 {
+  color: #333;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.dashboard-card p {
+  color: #666;
+  font-size: 1rem;
+}
+
+.dashboard-quick-actions {
+  margin-top: 2rem;
+}
+
+.dashboard-quick-actions .emergency-button {
+  background-color: #ff4444;
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.dashboard-quick-actions .emergency-button:hover {
+  background-color: #cc0000;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: 1rem;
+  }
+  
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .dashboard-content h1 {
+    font-size: 2rem;
+  }
 }
