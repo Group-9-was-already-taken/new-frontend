@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import axios from 'axios';
 import './QuizHistory.css';
 import Chart from 'chart.js/auto';
@@ -30,21 +30,9 @@ const QuizHistory = () => {
     fetchQuizResults();
   }, []);
 
-  useEffect(() => {
-    if (quizResults.length > 0) {
-      updateCharts();
-    }
-    return () => {
-      if (scoreChartInstance.current) {
-        scoreChartInstance.current.destroy();
-      }
-      if (moodChartInstance.current) {
-        moodChartInstance.current.destroy();
-      }
-    };
-  }, [quizResults, filterType]);
+  const updateCharts = useCallback(() => {
+    if (!quizResults.length) return;
 
-  const updateCharts = () => {
     const filteredData = filterType === 'all'
       ? quizResults
       : quizResults.filter(result => result.quiz_type === filterType);
@@ -66,76 +54,92 @@ const QuizHistory = () => {
     }
 
     // Create Score Progress Chart
-    const scoreCtx = scoreChartRef.current.getContext('2d');
-    scoreChartInstance.current = new Chart(scoreCtx, {
-      type: 'line',
-      data: {
-        labels: dates,
-        datasets: [{
-          label: 'Quiz Score',
-          data: scores,
-          borderColor: '#2196F3',
-          tension: 0.4,
-          fill: false
-        }]
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          title: {
-            display: true,
-            text: 'Score Progress Over Time'
-          }
+    const scoreCtx = scoreChartRef.current?.getContext('2d');
+    if (scoreCtx) {
+      scoreChartInstance.current = new Chart(scoreCtx, {
+        type: 'line',
+        data: {
+          labels: dates,
+          datasets: [{
+            label: 'Quiz Score',
+            data: scores,
+            borderColor: '#2196F3',
+            tension: 0.4,
+            fill: false
+          }]
         },
-        scales: {
-          y: {
-            beginAtZero: true,
-            max: Math.max(...scores) + 5
+        options: {
+          responsive: true,
+          plugins: {
+            title: {
+              display: true,
+              text: 'Score Progress Over Time'
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: Math.max(...scores) + 5
+            }
           }
         }
-      }
-    });
+      });
+    }
 
     // Create Mood & Stress Chart
-    const moodCtx = moodChartRef.current.getContext('2d');
-    moodChartInstance.current = new Chart(moodCtx, {
-      type: 'line',
-      data: {
-        labels: dates,
-        datasets: [
-          {
-            label: 'Mood Rating',
-            data: moodRatings,
-            borderColor: '#4CAF50',
-            tension: 0.4,
-            fill: false
-          },
-          {
-            label: 'Stress Level',
-            data: stressLevels,
-            borderColor: '#F44336',
-            tension: 0.4,
-            fill: false
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          title: {
-            display: true,
-            text: 'Mood & Stress Levels Over Time'
-          }
+    const moodCtx = moodChartRef.current?.getContext('2d');
+    if (moodCtx) {
+      moodChartInstance.current = new Chart(moodCtx, {
+        type: 'line',
+        data: {
+          labels: dates,
+          datasets: [
+            {
+              label: 'Mood Rating',
+              data: moodRatings,
+              borderColor: '#4CAF50',
+              tension: 0.4,
+              fill: false
+            },
+            {
+              label: 'Stress Level',
+              data: stressLevels,
+              borderColor: '#F44336',
+              tension: 0.4,
+              fill: false
+            }
+          ]
         },
-        scales: {
-          y: {
-            beginAtZero: true,
-            max: 5
+        options: {
+          responsive: true,
+          plugins: {
+            title: {
+              display: true,
+              text: 'Mood & Stress Levels Over Time'
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 5
+            }
           }
         }
+      });
+    }
+  }, [quizResults, filterType]);
+
+  useEffect(() => {
+    updateCharts();
+    return () => {
+      if (scoreChartInstance.current) {
+        scoreChartInstance.current.destroy();
       }
-    });
-  };
+      if (moodChartInstance.current) {
+        moodChartInstance.current.destroy();
+      }
+    };
+  }, [updateCharts]);
 
   const toggleRow = (id) => {
     const newExpandedRows = new Set(expandedRows);
