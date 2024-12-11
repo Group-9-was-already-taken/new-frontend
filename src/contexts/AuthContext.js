@@ -24,12 +24,18 @@ export const AuthProvider = ({ children }) => {
 
   const getToken = () => localStorage.getItem('token');
 
+  const logout = () => {
+    localStorage.removeItem('token');
+    setUser(null);
+  };
+
   const value = {
     user,
     setUser,
     isAuthenticated: !!user,
     loading,
-    getToken
+    getToken,
+    logout
   };
 
   if (loading) {

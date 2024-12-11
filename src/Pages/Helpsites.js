@@ -1,14 +1,6 @@
-import React, {useState} from "react";
-import Placeholder from "./Placeholder.jpg";
-import { useNavigate } from "react-router-dom";
+import React from "react";
 
 export default function HelpSites() {
-    
-    const navigate = useNavigate();
-
-    const navTo = (path) => {
-        navigate(path);
-      };
     
   return (
     <div className="moodlog-history-container">
@@ -55,7 +47,7 @@ export default function HelpSites() {
         </div>
         <div className="helpsites-content">
           <div className="helpsites-text">
-            <h2 onClick={() => navTo('/')}>Go back to frontpage</h2>
+            <h2>Go back to frontpage</h2>
           </div>
         </div>
       </div>

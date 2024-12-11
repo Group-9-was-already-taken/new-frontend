@@ -143,6 +143,9 @@ export default function MoodLog() {
         <div className="moodlog-button" onClick={() => navTo('/dashboard')}>
           <h1>Return to Dashboard</h1>
         </div>
+        <div className="moodlog-button" onClick={() => navTo('/moodloghistory')}>
+          <h1>View Mood History</h1>
+        </div>
       </div>
     </div>
   );

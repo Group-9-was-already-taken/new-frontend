@@ -1,30 +1,31 @@
-import React, {useState} from 'react';
-import Placeholder from './Placeholder.jpg'
+import React from 'react';
 import { useNavigate } from "react-router-dom";
+import '../styles/signLogin.css';
 
-export default function SignLogin() {
+const SignLogin = () => {
+  const navigate = useNavigate();
 
-    const navigate = useNavigate();
+  const navTo = (path) => {
+    navigate(path);
+  };
 
-    const navTo = (path) => {
-        navigate(path);
-      };
-
-    return (
-
-        <div className='sign-log-container'>
-            <div className='sign-log-content'>
-                <div className='sign-log-content-box'>
-                    <div className='sign-log-buttons'>
-                    <h2 onClick={() => navTo('/login')}>Log in</h2>
-                    </div>
-                    <div className='sign-log-buttons'>
-                    <h2 onClick={() => navTo('/signup')}>Sign Up</h2>
-                    </div>
-                </div>
-            </div>
+  return (
+    <div className="sign-login-container">
+      <div className="auth-options">
+        <div className="auth-card">
+          <h2>Sign Up</h2>
+          <p>Create a new account to start tracking your mental wellness journey</p>
+          <button onClick={() => navTo('/signup')}>Sign Up</button>
         </div>
 
-    )
+        <div className="auth-card">
+          <h2>Login</h2>
+          <p>Already have an account? Sign in to continue your progress</p>
+          <button onClick={() => navTo('/login')}>Login</button>
+        </div>
+      </div>
+    </div>
+  );
+};
 
-}
+export default SignLogin;

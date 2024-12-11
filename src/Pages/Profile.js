@@ -1,5 +1,4 @@
-import React, {useState} from 'react';
-import Placeholder from './Placeholder.jpg'
+import React from 'react';
 import { useNavigate } from "react-router-dom";
 
 export default function Profile() {
@@ -57,10 +56,10 @@ export default function Profile() {
                     <div className='profile-content-box-menu'> 
                         <div className='time-log-container'>
                             <div className='profile-date'>
-                                <h3></h3>
+                                <h3>Check Exercises</h3>
                             </div>
                             <div className='profile-if-logged'>
-                                <h3></h3>
+                                <h3>Click here to show log history</h3>
                             </div>
                         </div>
                         <div className='profile-log-history-button'>

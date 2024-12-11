@@ -1,5 +1,4 @@
-import React, {useState} from 'react';
-import { useNavigate } from "react-router-dom";
+import React from 'react';
 
 export default function OfficeExercise(){
 
@@ -12,7 +11,7 @@ export default function OfficeExercise(){
                 <div className='office-exercise-info-box'>
                     <h2> Shouder Exercises</h2>
                     <div className='office-exercise-info-box-img'>
-                        <img src='https://darebee.com/images/workouts/shoulder-arms-workout.jpg'></img>
+                        <img src='https://darebee.com/images/workouts/shoulder-arms-workout.jpg' alt="Shoulder and arms exercise demonstration"></img>
                     </div>
                     <div className='office-exercise-info-box-text-container'>
                     <div className='office-exercise-info-box-text'>
@@ -58,7 +57,7 @@ export default function OfficeExercise(){
                 <div className='office-exercise-info-box'>
                     <h2> Neck Exercises </h2>
                 <div className='office-exercise-info-box-img'>
-                    <img src='https://darebee.com/images/workouts/sore-neck-workout.jpg'></img>
+                    <img src='https://darebee.com/images/workouts/sore-neck-workout.jpg' alt="Neck exercise demonstration"></img>
                 </div>    
                 <div className='office-exercise-info-box-text-container'>
                 <div className='office-exercise-info-box-text'>
@@ -109,7 +108,7 @@ export default function OfficeExercise(){
                 <div className='office-exercise-info-box'>
                     <h2> </h2>
                 <div className='office-exercise-info-box-img'>
-                    <img src='https://darebee.com/images/workouts/sitting-fix-workout.jpg'></img>
+                    <img src='https://darebee.com/images/workouts/sitting-fix-workout.jpg' alt="Sitting fix exercise demonstration"></img>
                 </div> 
                 <div className='office-exercise-info-box-text-container'>
                 <div className='office-exercise-info-box-text'>

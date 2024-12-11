@@ -1,133 +1,160 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useAuth } from '../contexts/AuthContext';
+import axios from 'axios';
 import '../styles/UserInfo.css';
 
-export default function UserInfo() {
-    const navigate = useNavigate();
-    const { getToken, logout } = useAuth();
-    const [userInfo, setUserInfo] = useState(null);
-    const [error, setError] = useState('');
-    const [loading, setLoading] = useState(true);
+const UserInfo = () => {
+  const navigate = useNavigate();
+  const { getToken, isAuthenticated, logout } = useAuth();
+  const [userInfo, setUserInfo] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-    useEffect(() => {
-        fetchUserInfo();
-    }, []);
-
+  useEffect(() => {
     const fetchUserInfo = async () => {
-        try {
-            const token = getToken();
-            if (!token) {
-                setError('Please log in to view your profile');
-                setTimeout(() => navigate('/login'), 2000);
-                return;
-            }
-
-            const response = await fetch('http://localhost:3001/api/auth/user', {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                }
-            });
-
-            if (response.status === 401) {
-                throw new Error('Please log in to view your profile');
-            }
-
-            const data = await response.json();
-            
-            if (!response.ok) {
-                throw new Error(data.error || 'Failed to fetch user information');
-            }
-
-            if (!data.success || !data.user) {
-                throw new Error('No user data received');
-            }
-
-            setUserInfo(data.user);
-        } catch (err) {
-            console.error('Error fetching user info:', err);
-            setError(err.message);
-            if (err.message.includes('log in') || err.message.includes('token')) {
-                setTimeout(() => navigate('/login'), 2000);
-            }
-        } finally {
-            setLoading(false);
+      try {
+        if (!isAuthenticated) {
+          navigate('/login');
+          return;
         }
-    };
 
-    const handleLogout = async () => {
-        try {
+        const token = getToken();
+        if (!token) {
+          setError('No authentication token found');
+          navigate('/login');
+          return;
+        }
+
+        const response = await axios.get('http://localhost:3001/api/auth/me', {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
+
+        console.log('Response from backend:', response.data);
+
+        if (response.data) {
+          setUserInfo(response.data);
+          console.log('User info set to:', response.data);
+          setError("");
+        } else {
+          throw new Error('Failed to load user information');
+        }
+      } catch (error) {
+        console.error('Error fetching user info:', error);
+        
+        if (error.response) {
+          if (error.response.status === 401) {
+            setError('Session expired. Please login again.');
             await logout();
             navigate('/login');
-        } catch (err) {
-            setError('Failed to log out');
+          } else {
+            setError(error.response.data.error || 'Failed to load user information');
+          }
+        } else if (error.request) {
+          setError('Network error. Please check your connection.');
+        } else {
+          setError(error.message || 'An unexpected error occurred');
         }
+      } finally {
+        setLoading(false);
+      }
     };
 
-    if (loading) {
-        return (
-            <div className='userinfo-container'>
-                <div className='userinfo-content'>
-                    <h2>Loading your profile...</h2>
-                </div>
-            </div>
-        );
-    }
+    fetchUserInfo();
+  }, [isAuthenticated, navigate, getToken, logout]); // Dependencies for the effect
 
-    if (error) {
-        return (
-            <div className='userinfo-container'>
-                <div className='userinfo-content'>
-                    <h2>Error</h2>
-                    <p className="error-message">{error}</p>
-                </div>
-            </div>
-        );
-    }
+  const formatDate = (dateString) => {
+    if (!dateString) return 'Not set';
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  };
 
+  if (loading) {
     return (
-        <div className='userinfo-container'>
-            <div className='userinfo-content'>
-                <h2>Your Profile</h2>
-                {userInfo && (
-                    <>
-                        <div className='userinfo-content-box'>
-                            <h1>Username</h1>
-                            <p>{userInfo.username}</p>
-                        </div>
-                        <div className='userinfo-content-box'>
-                            <h1>Email</h1>
-                            <p>{userInfo.email}</p>
-                        </div>
-                        {userInfo.name && (
-                            <div className='userinfo-content-box'>
-                                <h1>Name</h1>
-                                <p>{userInfo.name}</p>
-                            </div>
-                        )}
-                        {userInfo.birthday && (
-                            <div className='userinfo-content-box'>
-                                <h1>Birthday</h1>
-                                <p>{new Date(userInfo.birthday).toLocaleDateString()}</p>
-                            </div>
-                        )}
-                        {userInfo.gender && (
-                            <div className='userinfo-content-box'>
-                                <h1>Gender</h1>
-                                <p>{userInfo.gender}</p>
-                            </div>
-                        )}
-                    </>
-                )}
-                <div className='userinfo-content-box clickable' onClick={() => navigate('/profile')}>
-                    <h1>View Activity Logs</h1>
-                </div>
-                <div className='userinfo-content-box clickable' onClick={handleLogout}>
-                    <h1>Log Out</h1>
-                </div>
-            </div>
+      <div className="userinfo-container">
+        <div className="userinfo-content">
+          <div className="loading-spinner">Loading...</div>
         </div>
+      </div>
     );
-}
+  }
+
+  if (error) {
+    return (
+      <div className="userinfo-container">
+        <div className="userinfo-content">
+          <h2>Error</h2>
+          <p className="error-message">{error}</p>
+          <button onClick={() => navigate('/login')} className="button">
+            Return to Login
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="userinfo-container">
+      <div className="userinfo-content">
+        <h2>Your Profile</h2>
+        {userInfo && (
+          <div className="info-section">
+            <div className="userinfo-content-box">
+              <h3>Personal Information</h3>
+              <div className="info-item">
+                <label>Username:</label>
+                <p>{userInfo.username}</p>
+              </div>
+              <div className="info-item">
+                <label>Email:</label>
+                <p>{userInfo.email}</p>
+              </div>
+              <div className="info-item">
+                <label>Full Name:</label>
+                <p>{userInfo.name || 'Not set'}</p>
+              </div>
+              <div className="info-item">
+                <label>Gender:</label>
+                <p>{userInfo.gender || 'Not set'}</p>
+              </div>
+              <div className="info-item">
+                <label>Birthday:</label>
+                <p>{userInfo.birthday ? formatDate(userInfo.birthday) : 'Not set'}</p>
+              </div>
+            </div>
+
+            <div className="userinfo-content-box">
+              <h3>Account Actions</h3>
+              <div className="action-buttons">
+                <button 
+                  className="action-button"
+                  onClick={() => navigate('/profile')}
+                >
+                  View Activity Logs
+                </button>
+                <button 
+                  className="action-button"
+                  onClick={async () => {
+                    await logout();
+                    navigate('/login');
+                  }}
+                >
+                  Log Out
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default UserInfo;

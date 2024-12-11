@@ -1,5 +1,4 @@
-import React, {useState} from 'react';
-import { useNavigate } from "react-router-dom";
+import React from 'react';
 
 export default function YogaExercise() {
 
@@ -10,7 +9,7 @@ export default function YogaExercise() {
                 <div className='office-exercise-info-box'>
                     <h2> Morning Yoga </h2>
                 <div className='office-exercise-info-box-img'>
-                    <img src='https://darebee.com/images/workouts/morning-mobility-workout.jpg'></img>
+                    <img src='https://darebee.com/images/workouts/morning-mobility-workout.jpg' alt="Morning yoga exercise demonstration"></img>
                 </div>
                 <div className='office-exercise-info-box-text-container'>
                 <div className='office-exercise-info-box-text'>
@@ -81,7 +80,7 @@ export default function YogaExercise() {
                 <div className='office-exercise-info-box'>
                     <h2> Pilates Yoga </h2>
                 <div className='office-exercise-info-box-img'>
-                    <img src='https://darebee.com/images/workouts/early-bird-workout.jpg'></img>
+                    <img src='https://darebee.com/images/workouts/early-bird-workout.jpg' alt="Pilates yoga exercise demonstration"></img>
                 </div>
                 <div className='office-exercise-info-box-text-container'>
                 <div className='office-exercise-info-box-text'>

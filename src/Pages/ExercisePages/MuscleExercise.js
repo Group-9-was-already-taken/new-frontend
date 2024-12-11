@@ -1,5 +1,4 @@
-import React, {useState} from 'react';
-import { useNavigate } from "react-router-dom";
+import React from 'react';
 
 export default function MuscleExercise() {
 
@@ -10,7 +9,7 @@ export default function MuscleExercise() {
             <div className='office-exercise-info-box'>
                 <h2> Upper Body </h2>
             <div className='office-exercise-info-box-img'>
-                <img src='https://darebee.com/images/workouts/upperbody-workout.jpg'></img>
+                <img src='https://darebee.com/images/workouts/upperbody-workout.jpg' alt="Upper body workout demonstration"></img>
             </div>
             <div className='office-exercise-info-box-text-container'>
             <div className='office-exercise-info-box-text'>

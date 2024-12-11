@@ -1,31 +1,23 @@
-import React, {useState} from 'react';
-import Placeholder from './Placeholder.jpg'
-import { useNavigate } from "react-router-dom";
+import React from 'react';
+import '../styles/AboutUs.css';
 
-export default function AboutUs() {
+const AboutUs = () => {
+  return (
+    <div className="about-us-container">
+      <h1>About Us</h1>
+      <div className="about-us-content">
+        <p>
+          Welcome to our mental health and wellness platform. We are dedicated to providing 
+          tools and resources to help you manage your mental well-being through exercises, 
+          assessments, and tracking capabilities.
+        </p>
+        <p>
+          Our mission is to make mental health resources more accessible and help you 
+          maintain a healthy work-life balance through regular exercise and self-assessment.
+        </p>
+      </div>
+    </div>
+  );
+};
 
-    const navigate = useNavigate();
-
-    const navTo = (path) => {
-        navigate(path);
-      };
-
-    return(
-        <div className='aboutus-container'>
-            <div className='aboutus-content'>
-                <div className='aboutus-text'>
-                    <h1>Who are we?</h1>
-                    <p>We are a Group 9 "was already taken". We are a student group formed in oamk tasked to create a product for a product development course.
-                        Our product is a mental health website aimed at people wanting to keep track of their mental state. It is a non-professional help and mostly there
-                        to possibly assist those in need of one. We aim to provide things like exercises and mood logs for the user, with links to proper professionals and 
-                        their websites in case the user may need them.
-                    </p>
-                </div>
-                <div className='return-button' onClick={() => navTo('/')}>
-                    <h2>Return to Frontpage</h2>
-                </div>
-            </div>
-        </div>
-    )
-
-}
+export default AboutUs;
