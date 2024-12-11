@@ -26,6 +26,11 @@ export default function Dashboard() {
             <p>Log your completed exercises</p>
           </div>
 
+          <div className="dashboard-card" onClick={() => navTo('/quiz')}>
+            <h2>Mental Health Check</h2>
+            <p>Take depression or anxiety screening</p>
+          </div>
+
           <div className="dashboard-card" onClick={() => navTo('/moodloghistory')}>
             <h2>Mood History</h2>
             <p>View your mood tracking history</p>

@@ -21,6 +21,10 @@ import { AuthProvider } from './contexts/AuthContext';
 import Dashboard from './Pages/Dashboard';
 import HelpSites from './Pages/Helpsites';
 import PrivacyPolicy from './Pages/PrivacyPolicy';
+import QuizSelection from './Pages/Quiz/QuizSelection';
+import PHQ9Quiz from './Pages/Quiz/PHQ9Quiz';
+import GAD7Quiz from './Pages/Quiz/GAD7Quiz';
+import QuizHistory from './Pages/Quiz/QuizHistory';
 
 export default function App() {
   return(
@@ -40,6 +44,10 @@ export default function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<SignUp />} />
               <Route path="/privacy" element={<PrivacyPolicy />} />
+              <Route path="/quiz" element={<QuizSelection />} />
+              <Route path="/quiz/phq9" element={<PHQ9Quiz />} />
+              <Route path="/quiz/gad7" element={<GAD7Quiz />} />
+              <Route path="/quiz/history" element={<QuizHistory />} />
               <Route path="/officeexercises" element={<OfficeExercise />} />
               <Route path="/yogaexercise" element={<YogaExercise />} />
               <Route path="/muscleexercise" element={<MuscleExercise />} />
