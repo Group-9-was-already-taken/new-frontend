@@ -67,7 +67,6 @@ export default function Header() {
                         onClick={() => setOpen(!open)}
                     >
                         <img src={user?.profileImage || Placeholder} alt={user ? 'Profile' : 'Menu'} />
-                        {user && <span className="username">{user.username}</span>}
                     </div>
                     <div 
                         ref={dropdownRef}
